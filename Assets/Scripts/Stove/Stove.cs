@@ -5,21 +5,17 @@ using UnityEngine.UI;
 
 public class Stove : MonoBehaviour
 {
-    public Food food = new Food();
+    public Food food;
     public int heat;
-    public StateMachine<Stove> stateMachine;
+    public StateMachine<Stove> stateMachine = new StateMachine<Stove>();
     public Text currentState;
-
-    void Awake()
-    {
-        State<Stove> initialState = new CookingState();
-        StartState(initialState);
-    }
+    
+    public float entryTime = 1, time = 3, exitTime = 1;
+    public int priority = 0;
     
     public void StartState(State<Stove> initialState)
     {
         // initialize FSM
-        stateMachine = new StateMachine<Stove>();
         stateMachine.entity = this;
 
         stateMachine.Begin(initialState);

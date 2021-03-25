@@ -6,16 +6,16 @@ public class StoreState : State<Child>
 {
 
     public override void Enter(Child entity){
-        this.time = 3;
+        this.time = entity.entryTime;
+        entity.currentState.text += "\n" + "Shopping";
     }
 
     public override void Execute(Child entity){
-        entity.currentState.text = "Shopping";
         this.time -= Time.deltaTime;
     }
 
     public override void Exit(Child entity, Mom mom){
-        entity.currentState.text = "Finish Shopping";
-        mom.AddActivity(new OccupiedState(0.5f, 2, "Receiving chilg"));
+        entity.currentState.text += "\n" + "Finish Shopping";
+        mom.AddActivity(new OccupiedState(entity.exitTime, entity.priority, "Receiving child"));
     }
 }

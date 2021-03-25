@@ -7,18 +7,15 @@ public class Child : MonoBehaviour
 {
     public Food food;
     public float money;
-    public StateMachine<Child> stateMachine;
+    public StateMachine<Child> stateMachine = new StateMachine<Child>();
     public Text currentState;
-    void Awake()
-    {
-        State<Child> initialState = new StoreState();
-        StartState(initialState);
-    }
+    
+    public float entryTime = 0.5f, time = 3, exitTime = 0.5f;
+    public int priority = 2;
     
     public void StartState(State<Child> initialState)
     {
         // initialize FSM
-        stateMachine = new StateMachine<Child>();
         stateMachine.entity = this;
 
         stateMachine.Begin(initialState);

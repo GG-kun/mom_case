@@ -7,8 +7,11 @@ public class Mom : MonoBehaviour
 {
     public List<OccupiedState> activities;
     public StateMachine<Mom> stateMachine;
-    public List<Text> stateTexts = new List<Text>();
     public Text currentState;
+
+    public Child child;
+    public Stove stove;
+    public Washer washer;
 
     // Start is called before the first frame update
     void Start()
@@ -30,18 +33,25 @@ public class Mom : MonoBehaviour
     public void AddActivity(OccupiedState activity){
         activities.Add(activity);
         activities.Sort((a, b) => {
-            return a.priority.CompareTo(b.priority);
+            return b.priority.CompareTo(a.priority);
         });
     }
 
     public void AddChildActivity(){
-        AddActivity(new OccupiedState(0.5f, 2, 0, stateTexts, "Commissioning child"));
+        AddActivity(new OccupiedState(child.entryTime, child.priority, 0, "Commissioning child"));
     }
     public void AddStoveActivity(){
-        AddActivity(new OccupiedState(1, 0, 1, stateTexts, "Setting stove"));
+        AddActivity(new OccupiedState(stove.entryTime, stove.priority, 1, "Setting stove"));
     }
     public void AddWashingActivity(){
-        AddActivity(new OccupiedState(1, 1, 2, stateTexts, "Loading washer"));
+        AddActivity(new OccupiedState(washer.entryTime, washer.priority, 2, "Loading washer"));
+    }
+
+    public OccupiedState PopActivity(){
+        int index = activities.Count-1;
+        OccupiedState activity = activities[index];
+        activities.RemoveAt(index);
+        return activity;
     }
 
     // Update is called once per frame
@@ -49,8 +59,7 @@ public class Mom : MonoBehaviour
     {
         stateMachine.UpdateMachine();
         if(stateMachine.CurrentState == null && activities.Count > 0){
-            stateMachine.Begin(activities[0]);
-            activities.RemoveAt(0);
+            stateMachine.Begin(PopActivity());
         }
     }
     
