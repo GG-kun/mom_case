@@ -7,19 +7,15 @@ public class Washer : MonoBehaviour
 {
     public int cycle;
     public int load;
-    public StateMachine<Washer> stateMachine;
+    public StateMachine<Washer> stateMachine = new StateMachine<Washer>();
     public Text currentState;
-
-    void Awake()
-    {
-        State<Washer> initialState = new WashingState();
-        StartState(initialState);
-    }
+    
+    public float entryTime = 1, time = 6, exitTime = 2;
+    public int priority = 1;
     
     public void StartState(State<Washer> initialState)
     {
         // initialize FSM
-        stateMachine = new StateMachine<Washer>();
         stateMachine.entity = this;
 
         stateMachine.Begin(initialState);

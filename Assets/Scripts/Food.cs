@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Food
+public class Food: MonoBehaviour
 {
     public float time = 6;
 }
