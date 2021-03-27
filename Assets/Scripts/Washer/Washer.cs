@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Washer : MonoBehaviour
 {
-    public int cycle;
-    public int load;
+    public float cycle = 1f;
+    public float load = 1f;
     public StateMachine<Washer> stateMachine = new StateMachine<Washer>();
     public Text currentState;
     

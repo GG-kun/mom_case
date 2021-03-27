@@ -13,6 +13,9 @@ public class Mom : MonoBehaviour
     public Stove stove;
     public Washer washer;
 
+    public float money = 50f;
+    public Food food;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +47,7 @@ public class Mom : MonoBehaviour
         AddActivity(new OccupiedState(stove.entryTime, stove.priority, 1, "Setting stove"));
     }
     public void AddWashingActivity(){
-        AddActivity(new OccupiedState(washer.entryTime, washer.priority, 2, "Loading washer"));
+        AddActivity(new OccupiedState(washer.entryTime*washer.load, washer.priority, 2, "Loading washer"));
     }
 
     public OccupiedState PopActivity(){
@@ -58,8 +61,16 @@ public class Mom : MonoBehaviour
     void Update()
     {
         stateMachine.UpdateMachine();
+        NextActivity();
+    }
+
+    public void NextActivity() {        
         if(stateMachine.CurrentState == null && activities.Count > 0){
-            stateMachine.Begin(PopActivity());
+            OccupiedState nextActivity = PopActivity();
+            if(!stateMachine.Begin(nextActivity)){
+                NextActivity();
+                activities.Add(nextActivity);
+            }            
         }
     }
     
