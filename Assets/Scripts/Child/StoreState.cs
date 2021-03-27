@@ -5,8 +5,13 @@ using UnityEngine;
 public class StoreState : State<Child>
 {
 
-    public override void Enter(Child entity){
-        this.time = entity.entryTime;
+    public override bool IsValid(Child entity)
+    {
+        return entity.money > 0;
+    }
+
+    public override void Enter(Child entity, Mom mom){
+        this.time = entity.time;
         entity.currentState.text += "\n" + "Shopping";
     }
 
@@ -16,6 +21,7 @@ public class StoreState : State<Child>
 
     public override void Exit(Child entity, Mom mom){
         entity.currentState.text += "\n" + "Finish Shopping";
-        mom.AddActivity(new OccupiedState(entity.exitTime, entity.priority, "Receiving child"));
+        entity.BuyFood();
+        mom.AddActivity(new OccupiedState(entity.exitTime, entity.priority, 3, "Receiving child"));
     }
 }

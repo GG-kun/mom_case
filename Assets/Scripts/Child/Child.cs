@@ -26,4 +26,15 @@ public class Child : MonoBehaviour
     {
         stateMachine.UpdateMachine();
     }
+
+    public void BuyFood(){
+        GameObject foodObject = new GameObject("Food");
+        Food food = foodObject.AddComponent<Food>();
+        if(this.money < food.price){
+            Destroy(foodObject);
+            return;
+        }
+        this.money -= food.price;
+        this.food = food;
+    }
 }

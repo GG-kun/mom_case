@@ -11,12 +11,12 @@ public class StateMachine<T>
     //**********************************************************************************************
     public bool Begin(State<T> initialST)
     {
-        if (initialST == null)
+        if (initialST == null || !initialST.IsValid(entity))
         {
             return false;
         }
         CurrentState = initialST;
-        CurrentState.Enter(entity);
+        CurrentState.Enter(entity, mom);
         return true;
     }
 
